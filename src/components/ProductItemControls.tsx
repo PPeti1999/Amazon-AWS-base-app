@@ -42,9 +42,10 @@ const ProductItemControls = ({ id, isSignedIn }: ProductItemControlsProps) => {
           <button className="btn btn-blue" onClick={handleEdit}>
             Edit
           </button>
-          <button className="btn btn-blue" onClick={handleDelete}>
+          <button className="font-bold py-2 px-4 rounded bg-blue-500 text-white hover:bg-blue-700" onClick={handleDelete}>
             Delete
           </button>
+
         </>
       )}
     </div>

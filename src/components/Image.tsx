@@ -9,7 +9,13 @@ interface ImageComponentProps {
 }
 
 const ImageComponent = ({ path, altText }: ImageComponentProps) => {
-  return <StorageImage path={path} alt={altText} />;
-};
+    return (
+      <StorageImage
+        path={path}
+        alt={altText}
+        className="w-32 h-32 object-cover"
+      />
+    );
+  };
 
 export default ImageComponent;
