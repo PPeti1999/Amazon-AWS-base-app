@@ -18,7 +18,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, isSignedIn }) => {
       )}
       <div>
         <h2 className="text-xl font-bold">{product.name}</h2>
-        <div>{product.description}</div>
+        <div>{product.description || "No description available."}</div>
         <ProductItemControls id={product.id} isSignedIn={isSignedIn} />
       </div>
     </div>

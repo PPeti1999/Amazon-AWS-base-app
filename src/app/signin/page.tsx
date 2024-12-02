@@ -7,7 +7,7 @@ const SignIn = async () => {
   if (isSignedIn) {
     return (
       <div className="flex mt-10">
-        <div className="w-1/2 border border-black rounded p-20 mx-auto text-xl">
+        <div className="w-1/2 border border-black rounded p-20 mx-auto text-xl flex items-center justify-center">
           You are signed in.
         </div>
       </div>
