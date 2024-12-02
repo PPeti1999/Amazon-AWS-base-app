@@ -37,7 +37,6 @@ const ProductItemControls = ({ id, isSignedIn }: ProductItemControlsProps) => {
 
   return (
     <div className="flex gap-2">
-      {isSignedIn && <button className="btn btn-blue">Add Review</button>}
       {isAdmin && (
         <>
           <button className="btn btn-blue" onClick={handleEdit}>
