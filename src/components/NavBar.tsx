@@ -36,11 +36,11 @@ export default function NavBar({ className }: NavBarProps) {
   const defaultRoutes = [
     {
       href: "/",
-      label: "Onyx Store",
+      label: "Patient Database",
     },
     {
       href: "/admin/product-create",
-      label: "Add Product",
+      label: "Add Patient Info",
       isAdmin: true,
     },
   ];

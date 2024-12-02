@@ -37,7 +37,6 @@ const ProductItemControls = ({ id, isSignedIn }: ProductItemControlsProps) => {
 
   return (
     <div className="flex gap-2">
-      <button className="btn btn-blue">Add to Cart</button>
       {isSignedIn && <button className="btn btn-blue">Add Review</button>}
       {isAdmin && (
         <>
@@ -51,6 +50,23 @@ const ProductItemControls = ({ id, isSignedIn }: ProductItemControlsProps) => {
       )}
     </div>
   );
+
+ /* return (
+    <div className="flex gap-2">
+      <button className="btn btn-blue">Add to Cart</button>
+      {isSignedIn && <button className="btn btn-blue">Add Review</button>}
+      {isAdmin && (
+        <>
+          <button className="btn btn-blue" onClick={handleEdit}>
+            Edit
+          </button>
+          <button className="btn btn-blue" onClick={handleDelete}>
+            Delete
+          </button>
+        </>
+      )}
+    </div>
+  );*/
 };
 
 export default ProductItemControls;
