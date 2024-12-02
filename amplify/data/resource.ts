@@ -5,7 +5,7 @@ const schema = a.schema({
     .model({
       name: a.string().required(),
       description: a.string().required(),
-      //price: a.integer().required(),
+      price: a.integer().required(),
       image: a.string(),
     })
     .authorization((allow) => [

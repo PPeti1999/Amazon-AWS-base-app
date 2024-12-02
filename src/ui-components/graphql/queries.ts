@@ -10,6 +10,7 @@ export const getProduct = /* GraphQL */ `
       id
       image
       name
+      price
       updatedAt
       __typename
     }
@@ -28,7 +29,7 @@ export const listProducts = /* GraphQL */ `
         id
         image
         name
-        
+        price
         updatedAt
         __typename
       }

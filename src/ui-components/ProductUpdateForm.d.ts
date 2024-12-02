@@ -19,13 +19,13 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type ProductUpdateFormInputValues = {
     name?: string;
     description?: string;
-   // price?: number;
+    price?: number;
     image?: string;
 };
 export declare type ProductUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
-    //price?: ValidationFunction<number>;
+    price?: ValidationFunction<number>;
     image?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -33,7 +33,7 @@ export declare type ProductUpdateFormOverridesProps = {
     ProductUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
-    //price?: PrimitiveOverrideProps<TextFieldProps>;
+    price?: PrimitiveOverrideProps<TextFieldProps>;
     image?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ProductUpdateFormProps = React.PropsWithChildren<{

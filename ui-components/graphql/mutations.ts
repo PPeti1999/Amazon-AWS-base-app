@@ -13,6 +13,7 @@ export const createProduct = /* GraphQL */ `
       id
       image
       name
+       price
       updatedAt
       __typename
     }
@@ -29,6 +30,7 @@ export const deleteProduct = /* GraphQL */ `
       id
       image
       name
+       price
       updatedAt
       __typename
     }
@@ -45,6 +47,7 @@ export const updateProduct = /* GraphQL */ `
       id
       image
       name
+       price
       updatedAt
       __typename
     }

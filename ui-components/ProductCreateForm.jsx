@@ -20,20 +20,20 @@ export default function ProductCreateForm(props) {
   const initialValues = {
     name: "",
     description: "",
-    //price: "",
+    price: "",
     image: "",
   };
   const [name, setName] = React.useState(initialValues.name);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
-  //const [price, setPrice] = React.useState(initialValues.price);
+  const [price, setPrice] = React.useState(initialValues.price);
   const [image, setImage] = React.useState(initialValues.image);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
     setDescription(initialValues.description);
-    //setPrice(initialValues.price);
+    setPrice(initialValues.price);
     setImage(initialValues.image);
     setErrors({});
   };
@@ -71,7 +71,7 @@ export default function ProductCreateForm(props) {
         let modelFields = {
           name,
           description,
-         // price,
+          price,
           image,
         };
         const validationResponses = await Promise.all(
@@ -137,7 +137,7 @@ export default function ProductCreateForm(props) {
             const modelFields = {
               name: value,
               description,
-             // price,
+              price,
               image,
             };
             const result = onChange(modelFields);
@@ -164,7 +164,7 @@ export default function ProductCreateForm(props) {
             const modelFields = {
               name,
               description: value,
-              //price,
+              price,
               image,
             };
             const result = onChange(modelFields);
@@ -181,12 +181,12 @@ export default function ProductCreateForm(props) {
         {...getOverrideProps(overrides, "description")}
       ></TextField>
       <TextField
-        //label="Price"
+        label="Price"
         isRequired={true}
         isReadOnly={false}
         type="number"
         step="any"
-        //value={price}
+        value={price}
         onChange={(e) => {
           let value = isNaN(parseInt(e.target.value))
             ? e.target.value
@@ -195,21 +195,21 @@ export default function ProductCreateForm(props) {
             const modelFields = {
               name,
               description,
-            //  price: value,
+              price: value,
               image,
             };
             const result = onChange(modelFields);
-            //value = result?.price ?? value;
+            value = result?.price ?? value;
           }
-         // if (errors.price?.hasError) {
-          //  runValidationTasks("price", value);
-       //   }
-        //  setPrice(value);
+          if (errors.price?.hasError) {
+            runValidationTasks("price", value);
+          }
+          setPrice(value);
         }}
-       // onBlur={() => runValidationTasks("price", price)}
-       // errorMessage={errors.price?.errorMessage}
-      //  hasError={errors.price?.hasError}
-       // {...getOverrideProps(overrides, "price")}
+        onBlur={() => runValidationTasks("price", price)}
+        errorMessage={errors.price?.errorMessage}
+        hasError={errors.price?.hasError}
+        {...getOverrideProps(overrides, "price")}
       ></TextField>
       <TextField
         label="Image"
@@ -222,7 +222,7 @@ export default function ProductCreateForm(props) {
             const modelFields = {
               name,
               description,
-             // price,
+              price,
               image: value,
             };
             const result = onChange(modelFields);
