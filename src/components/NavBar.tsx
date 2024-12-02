@@ -36,11 +36,11 @@ export default function NavBar({ className }: NavBarProps) {
   const defaultRoutes = [
     {
       href: "/",
-      label: "Patient Database",
+      label: "Medical Toolbox",
     },
     {
       href: "/admin/product-create",
-      label: "Add Patient Info",
+      label: "Add Medical Tool",
       isAdmin: true,
     },
   ];
