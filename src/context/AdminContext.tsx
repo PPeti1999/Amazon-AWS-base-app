@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import { fetchAuthSession } from "aws-amplify/auth";
 import { Hub } from "aws-amplify/utils";
-import clearCachesByServerAction from "../actions/revalidate";
+import clearCachesByServerAction from "@/actions/revalidate";
 
 interface AdminContextProviderProps {
   children: React.ReactNode;

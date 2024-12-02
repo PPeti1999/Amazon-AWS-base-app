@@ -1,23 +1,16 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  TextField,
-  TextAreaField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createProduct } from "./graphql/mutations";
-import { processFile } from "./utils";
-import { StorageManager, StorageImage } from "@aws-amplify/ui-react-storage";
-
+import { getProduct } from "./graphql/queries";
+import { updateProduct } from "./graphql/mutations";
 const client = generateClient();
-export default function ProductCreateForm(props) {
+export default function ProductUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    product: productModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -40,12 +33,31 @@ export default function ProductCreateForm(props) {
   const [image, setImage] = React.useState(initialValues.image);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
-    setDescription(initialValues.description);
-    setPrice(initialValues.price);
-    setImage(initialValues.image);
+    const cleanValues = productRecord
+      ? { ...initialValues, ...productRecord }
+      : initialValues;
+    setName(cleanValues.name);
+    setDescription(cleanValues.description);
+    setPrice(cleanValues.price);
+    setImage(cleanValues.image);
     setErrors({});
   };
+  const [productRecord, setProductRecord] = React.useState(productModelProp);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? (
+            await client.graphql({
+              query: getProduct.replaceAll("__typename", ""),
+              variables: { id: idProp },
+            })
+          )?.data?.getProduct
+        : productModelProp;
+      setProductRecord(record);
+    };
+    queryData();
+  }, [idProp, productModelProp]);
+  React.useEffect(resetStateValues, [productRecord]);
   const validations = {
     name: [{ type: "Required" }],
     description: [{ type: "Required" }],
@@ -81,7 +93,7 @@ export default function ProductCreateForm(props) {
           name,
           description,
           price,
-          image,
+          image: image ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -112,19 +124,16 @@ export default function ProductCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createProduct.replaceAll("__typename", ""),
-            authMode: "userPool",
+            query: updateProduct.replaceAll("__typename", ""),
             variables: {
               input: {
+                id: productRecord.id,
                 ...modelFields,
               },
             },
           });
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -133,7 +142,7 @@ export default function ProductCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "ProductCreateForm")}
+      {...getOverrideProps(overrides, "ProductUpdateForm")}
       {...rest}
     >
       <TextField
@@ -163,7 +172,7 @@ export default function ProductCreateForm(props) {
         hasError={errors.name?.hasError}
         {...getOverrideProps(overrides, "name")}
       ></TextField>
-      <TextAreaField
+      <TextField
         label="Description"
         isRequired={true}
         isReadOnly={false}
@@ -188,9 +197,8 @@ export default function ProductCreateForm(props) {
         onBlur={() => runValidationTasks("description", description)}
         errorMessage={errors.description?.errorMessage}
         hasError={errors.description?.hasError}
-        rows={3}
         {...getOverrideProps(overrides, "description")}
-      ></TextAreaField>
+      ></TextField>
       <TextField
         label="Price"
         isRequired={true}
@@ -222,7 +230,7 @@ export default function ProductCreateForm(props) {
         hasError={errors.price?.hasError}
         {...getOverrideProps(overrides, "price")}
       ></TextField>
-      {/* <TextField
+      <TextField
         label="Image"
         isRequired={false}
         isReadOnly={false}
@@ -248,40 +256,20 @@ export default function ProductCreateForm(props) {
         errorMessage={errors.image?.errorMessage}
         hasError={errors.image?.hasError}
         {...getOverrideProps(overrides, "image")}
-      ></TextField> */}
-
-      {image && <StorageImage path={image} alt={name} />}
-
-      {image && (
-        <Button onClick={() => setImage(undefined)}>Remove Image</Button>
-      )}
-
-      <StorageManager
-        path="product-images/"
-        maxFileCount={1}
-        acceptedFileTypes={["image/*"]}
-        processFile={processFile}
-        onUploadSuccess={({ key }) => {
-          console.log("onUploadSuccess", key);
-          setImage(key);
-        }}
-        onFileRemove={({ key }) => {
-          setImage(undefined);
-        }}
-      />
-
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || productModelProp)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -291,7 +279,10 @@ export default function ProductCreateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || productModelProp) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

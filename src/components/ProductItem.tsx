@@ -1,6 +1,6 @@
 import { type Schema } from "@/../amplify/data/resource";
-import ProductItemControls from "../components/ProductItemControls";
-import ImageComponent from "../components/Image";
+import ProductItemControls from "@/components/ProductItemControls";
+import ImageComponent from "@/components/Image";
 
 type Product = Schema["Product"]["type"];
 interface ProductItemProps {

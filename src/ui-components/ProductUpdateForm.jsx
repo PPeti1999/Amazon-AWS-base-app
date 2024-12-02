@@ -1,11 +1,20 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  TextField,
+  TextAreaField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { getProduct } from "./graphql/queries";
 import { updateProduct } from "./graphql/mutations";
+import { processFile } from "./utils";
+import { StorageManager, StorageImage } from "@aws-amplify/ui-react-storage";
+
 const client = generateClient();
 export default function ProductUpdateForm(props) {
   const {
@@ -49,6 +58,7 @@ export default function ProductUpdateForm(props) {
         ? (
             await client.graphql({
               query: getProduct.replaceAll("__typename", ""),
+              authMode: "userPool",
               variables: { id: idProp },
             })
           )?.data?.getProduct
@@ -125,6 +135,7 @@ export default function ProductUpdateForm(props) {
           });
           await client.graphql({
             query: updateProduct.replaceAll("__typename", ""),
+            authMode: "userPool",
             variables: {
               input: {
                 id: productRecord.id,
@@ -172,7 +183,7 @@ export default function ProductUpdateForm(props) {
         hasError={errors.name?.hasError}
         {...getOverrideProps(overrides, "name")}
       ></TextField>
-      <TextField
+      <TextAreaField
         label="Description"
         isRequired={true}
         isReadOnly={false}
@@ -197,8 +208,9 @@ export default function ProductUpdateForm(props) {
         onBlur={() => runValidationTasks("description", description)}
         errorMessage={errors.description?.errorMessage}
         hasError={errors.description?.hasError}
+        row={3}
         {...getOverrideProps(overrides, "description")}
-      ></TextField>
+      ></TextAreaField>
       <TextField
         label="Price"
         isRequired={true}
@@ -230,7 +242,7 @@ export default function ProductUpdateForm(props) {
         hasError={errors.price?.hasError}
         {...getOverrideProps(overrides, "price")}
       ></TextField>
-       {/*<TextField
+      {/* <TextField
         label="Image"
         isRequired={false}
         isReadOnly={false}
@@ -256,7 +268,28 @@ export default function ProductUpdateForm(props) {
         errorMessage={errors.image?.errorMessage}
         hasError={errors.image?.hasError}
         {...getOverrideProps(overrides, "image")}
-      ></TextField>*/}
+      ></TextField> */}
+
+      {image && <StorageImage path={image} alt={name} />}
+
+      {image && (
+        <Button onClick={() => setImage(undefined)}>Remove Image</Button>
+      )}
+
+      <StorageManager
+        path="product-images/"
+        maxFileCount={1}
+        acceptedFileTypes={["image/*"]}
+        processFile={processFile}
+        onUploadSuccess={({ key }) => {
+          console.log("onUploadSuccess", key);
+          setImage(key);
+        }}
+        onFileRemove={({ key }) => {
+          setImage(undefined);
+        }}
+      />
+
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

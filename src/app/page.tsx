@@ -1,5 +1,5 @@
-import { cookieBasedClient }   from "../utils/amplify-utils";
-import { checkIsAuthenticated }  from "../utils/amplify-utils";
+import { cookieBasedClient } from "@/utils/amplify-utils";
+import { checkIsAuthenticated } from "@/utils/amplify-utils";
 import ProductItem from "@/components/ProductItem";
 
 export default async function Home() {

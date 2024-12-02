@@ -1,19 +1,10 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  TextField,
-  TextAreaField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { createProduct } from "./graphql/mutations";
-import { processFile } from "./utils";
-import { StorageManager, StorageImage } from "@aws-amplify/ui-react-storage";
-
 const client = generateClient();
 export default function ProductCreateForm(props) {
   const {
@@ -113,7 +104,6 @@ export default function ProductCreateForm(props) {
           });
           await client.graphql({
             query: createProduct.replaceAll("__typename", ""),
-            authMode: "userPool",
             variables: {
               input: {
                 ...modelFields,
@@ -163,7 +153,7 @@ export default function ProductCreateForm(props) {
         hasError={errors.name?.hasError}
         {...getOverrideProps(overrides, "name")}
       ></TextField>
-      <TextAreaField
+      <TextField
         label="Description"
         isRequired={true}
         isReadOnly={false}
@@ -188,9 +178,8 @@ export default function ProductCreateForm(props) {
         onBlur={() => runValidationTasks("description", description)}
         errorMessage={errors.description?.errorMessage}
         hasError={errors.description?.hasError}
-        rows={3}
         {...getOverrideProps(overrides, "description")}
-      ></TextAreaField>
+      ></TextField>
       <TextField
         label="Price"
         isRequired={true}
@@ -222,7 +211,7 @@ export default function ProductCreateForm(props) {
         hasError={errors.price?.hasError}
         {...getOverrideProps(overrides, "price")}
       ></TextField>
-      {/* <TextField
+      <TextField
         label="Image"
         isRequired={false}
         isReadOnly={false}
@@ -248,28 +237,7 @@ export default function ProductCreateForm(props) {
         errorMessage={errors.image?.errorMessage}
         hasError={errors.image?.hasError}
         {...getOverrideProps(overrides, "image")}
-      ></TextField> */}
-
-      {image && <StorageImage path={image} alt={name} />}
-
-      {image && (
-        <Button onClick={() => setImage(undefined)}>Remove Image</Button>
-      )}
-
-      <StorageManager
-        path="product-images/"
-        maxFileCount={1}
-        acceptedFileTypes={["image/*"]}
-        processFile={processFile}
-        onUploadSuccess={({ key }) => {
-          console.log("onUploadSuccess", key);
-          setImage(key);
-        }}
-        onFileRemove={({ key }) => {
-          setImage(undefined);
-        }}
-      />
-
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
