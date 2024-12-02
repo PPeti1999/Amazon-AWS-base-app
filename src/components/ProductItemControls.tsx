@@ -36,13 +36,13 @@ const ProductItemControls = ({ id, isSignedIn }: ProductItemControlsProps) => {
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="mt-auto flex justify-center gap-4 p-2">
       {isAdmin && (
         <>
           <button className="btn btn-blue" onClick={handleEdit}>
             Edit
           </button>
-          <button className="font-bold py-2 px-4 rounded bg-blue-500 text-white hover:bg-blue-700" onClick={handleDelete}>
+          <button className="btn btn-blue" onClick={handleDelete}>
             Delete
           </button>
 
