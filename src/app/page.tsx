@@ -12,17 +12,22 @@ export default async function Home() {
   // console.log("products", products);
 
   return (
-    <main className="flex min-h-screen flex-wrap gap-4 justify-center p-24">
-  {products?.map((product) => (
-     
-      <ProductItem
-      key={product.id}
-      product={product}
-      isSignedIn={isSignedIn}
-    />
+    <main className="container">
+      <div className="row">
+      {products?.map((product) => (
+     <div className="col-12 col-sm-6 col-lg-4 mb-4">
+       <ProductItem
+     key={product.id}
+     product={product}
+     isSignedIn={isSignedIn}
+   />
+</div>
     
-    
-  ))}
+   
+   
+ ))}
+      </div>
+  
 </main>
   );
 }
