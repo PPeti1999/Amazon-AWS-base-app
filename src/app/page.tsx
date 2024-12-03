@@ -12,7 +12,7 @@ export default async function Home() {
   // console.log("products", products);
 
   return (
-    <main className="flex min-h-screen flex-wrap gap-4 justify-center p-24">
+    <main className="flex min-h-screen flex-col justify-between p-24">
   {products?.map((product) => (
     <ProductItem
       key={product.id}
