@@ -12,7 +12,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, isSignedIn }) => {
   return (
     <div className="h-64 rounded-lg border-black border my-1 p-2 grid grid-cols-2">
     {product.image && (
-      <div className="aspect-w-4 aspect-h-3">
+      <div className="h-64 w-full overflow-hidden">
         <ImageComponent path={product.image} altText={product.price.toString()} />
       </div>
     )}
