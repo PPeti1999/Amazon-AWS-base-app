@@ -10,20 +10,30 @@ interface ProductItemProps {
 
 const ProductItem: React.FC<ProductItemProps> = ({ product, isSignedIn }) => {
   return (
-    <div className="rounded-lg border-black border my-1 p-2 flex gap-2">
+    <div className="h-64 rounded-lg border-black border my-1 p-2 flex gap-2">
     {product.image && (
-      <div>
+      <div className="w-1/3">
         <ImageComponent path={product.image} altText={product.name} />
       </div>
     )}
     <div>
       <h2 className="text-xl font-bold">{product.name}</h2>
-      <div>{product.description}</div>
+      <div >{product.description || "No description available."}</div>
       <ProductItemControls id={product.id} isSignedIn={isSignedIn} />
     </div>
   </div>
   );
 };
+/*
+Egyenletes kártyamagasság: Ha az összes kártyának azonos magasságot szeretnél, adj hozzá egy fix magasságot, például: h 64
+rounded-lg: A kártya sarkai lekerekítettek.
+border-black border: Fekete szegélyt ad a kártyának.
+my-1: A kártya körül függőleges margót ad.
+p-4: Kártyán belül 4 egységnyi belső margót állít be.
+flex gap-4: Rugalmas elrendezés a képek és szöveg között 4 egységnyi távolsággal.
+
+Reszponzív képbeállítás: Ha a kép méretét is szabályozni szeretnéd:div className="w-1/3">
+*/
 /*
 const ProductItem: React.FC<ProductItemProps> = ({ product, isSignedIn }) => {
   return (
