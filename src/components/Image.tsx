@@ -13,7 +13,7 @@ const ImageComponent = ({ path, altText }: ImageComponentProps) => {
       <StorageImage
         path={path}
         alt={altText}
-        className="w-full h-48 object-cover"
+        className="h-full w-full object-cover"
       />
     );
   };

@@ -10,13 +10,13 @@ interface ProductItemProps {
 
 const ProductItem: React.FC<ProductItemProps> = ({ product, isSignedIn }) => {
   return (
-    <div className="h-64 rounded-lg border-black border my-1 p-2 flex gap-2">
+    <div className="h-64 rounded-lg border-black border my-1 p-2 grid grid-cols-2">
     {product.image && (
-      <div className="w-1/3">
+      <div className="flex items-center justify-center">
         <ImageComponent path={product.image} altText={product.name} />
       </div>
     )}
-    <div>
+   <div className="flex flex-col justify-center">
       <h2 className="text-xl font-bold">{product.name}</h2>
       <div >{product.description || "No description available."}</div>
       <ProductItemControls id={product.id} isSignedIn={isSignedIn} />
