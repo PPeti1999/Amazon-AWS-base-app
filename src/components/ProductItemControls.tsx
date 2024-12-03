@@ -36,7 +36,7 @@ const ProductItemControls = ({ id, isSignedIn }: ProductItemControlsProps) => {
   };
 
   return (
-    <div className="mt-auto flex justify-center gap-4 p-2  mb-2">
+    <div className="mt-auto flex justify-center gap-4 p-2  mb-2 mr-2">
       {isAdmin && (
         <>
           <button className="btn btn-blue" onClick={handleEdit}>
