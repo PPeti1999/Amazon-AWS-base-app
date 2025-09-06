@@ -1,3 +1,5 @@
+Hungarian PPT:[Letöltés / megnyitás](Amazon-AWS-alapu-alkalmazasfejlesztes-prezentacio.pptx)
+Hungarian Documentation: [Megnyitás GitHub nézetben](Amazon-AWS-alapu-alkalmazasfejlesztes-dokumentacio.docx)
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
