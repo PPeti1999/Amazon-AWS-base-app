@@ -1,38 +1,47 @@
-Hungarian PPT:[Letöltés / megnyitás](Amazon-AWS-alapu-alkalmazasfejlesztes-prezentacio.pptx)
-Hungarian Documentation: [Megnyitás GitHub nézetben](Amazon-AWS-alapu-alkalmazasfejlesztes-dokumentacio.docx)
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Medical Toolbox
 
-## Getting Started
+**Medical Toolbox** is a modern, AWS-based e-commerce web application designed for managing and browsing medical tools. It was developed as part of the MSc Independent Laboratory 2 course to demonstrate cloud-native application development using AWS services.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The application features a role-based access control (RBAC) system with a responsive user interface:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+*   **Guest Users (Logged out):** Can browse the catalog of medical tools and view product details.
+*   **Registered Users:** Can log in, browse the product catalog, and view details.
+*   **Administrators:** Have full CRUD (Create, Read, Update, Delete) capabilities. They can add new medical tools, edit existing ones, delete products, and upload product images to cloud storage.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Technology Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The project leverages a modern full-stack approach, heavily utilizing the AWS ecosystem.
 
-## Learn More
+### Frontend
+*   **Next.js:** Framework for fast, dynamic, and server-rendered React applications.
+*   **React Context API:** Used for managing global user state and authentication contexts.
+*   **Tailwind CSS:** For clean, responsive, and modern UI styling.
 
-To learn more about Next.js, take a look at the following resources:
+### Backend (AWS Amplify Gen 2)
+*   **Amazon Cognito:** Handles user authentication, registration, and group-based authorization (e.g., "Admins" group).
+*   **Amazon DynamoDB:** A NoSQL database used to store structured data like user profiles and product details (name, description, price, image URLs).
+*   **Amazon S3:** Cloud storage for uploading and serving product images.
+*   **AWS AppSync (GraphQL):** Manages data fetching, updates, and real-time synchronization between the frontend and the database.
+*   **AWS Lambda:** Serverless compute for custom backend logic.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🏗️ Architecture & Key Components
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The codebase is structured to separate authentication, data models, storage, and UI components cleanly.
 
-## Deploy on Vercel
+*   **`auth/resource.ts`**: Configures Amazon Cognito. Enables email-based login and defines user groups, specifically the "Admins" group.
+*   **`data/resource.ts`**: Defines the DynamoDB schema for the `Product` entity and sets up role-based access rules (e.g., Guests can read, Admins can read/write/delete).
+*   **`storage/resource.ts`**: Configures the Amazon S3 bucket (`onyxStoreNextGen2Bucket`) and its access policies for different user groups.
+*   **`middleware.ts`**: Next.js middleware that acts as a route guard. It checks if a user has admin privileges before granting access to `/admin` routes.
+*   **`context/AdminContext.tsx`**: A React Context provider that listens to AWS Amplify Hub auth events to manage and distribute the user's admin status across components.
+*   **Auto-generated UI Components**: Utilizes `npx amplify generate forms` to automatically create React forms based on the backend data models for creating and updating products.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔮 Future Enhancements
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*   **Product Reviews:** Allow registered users to leave reviews and ratings on medical tools.
+*   **Ordering System:** Implement a checkout and ordering system for non-admin users to actually purchase the tools.
+
+## 👨‍💻 Author
+**Péter Benjámin Pásztori** 
+*Developed for MSc Independent Laboratory 2*
